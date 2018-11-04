@@ -23,7 +23,9 @@ export class BurgerBuilder extends Component{
   };
   
   cloneState = () => {
-    return {...this.state};
+    return {
+      ...this.state
+    };
   };
 
   addIngredientHandler = (type) => {
@@ -42,6 +44,13 @@ export class BurgerBuilder extends Component{
     this.setState(currentState);
   };
   
+  calcDisabledInfo = () => {
+    const disabledInfo = { ...this.cloneState().ingredients };
+    for (let key in disabledInfo) {
+      disabledInfo[key] = disabledInfo[key] <= 0;
+    }
+    return disabledInfo;
+  };
   
   render() {
     return (
@@ -50,6 +59,7 @@ export class BurgerBuilder extends Component{
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
+          disabled={this.calcDisabledInfo()}
         />
       </Aux>
     );
